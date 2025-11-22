@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MAShop.DAL.Models
 {
-    public class Category
+    public class Category : BaseModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public List<CategoryTranslation> Translations { get; set; }
     }
 }

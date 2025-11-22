@@ -167,3 +167,14 @@ C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\ar\MAShop.PL.resources.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\obj\Debug\net9.0\MAShop.PL.Resource.SharedResource.resources
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\obj\Debug\net9.0\MAShop.PL.Resource.SharedResource.ar.resources
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\obj\Debug\net9.0\MAShop.PL.csproj.GenerateResource.cache
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\obj\Debug\net9.0\MAShop.PL.sourcelink.json
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\obj\Debug\net9.0\ar\MAShop.PL.resources.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\Mapster.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\Mapster.Core.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.PL\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
