@@ -13,3 +13,4 @@ C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Debug\net9
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Debug\net9.0\refint\MAShop.BLL.dll
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Debug\net9.0\MAShop.BLL.pdb
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Debug\net9.0\ref\MAShop.BLL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Debug\net9.0\MAShop.BLL.sourcelink.json

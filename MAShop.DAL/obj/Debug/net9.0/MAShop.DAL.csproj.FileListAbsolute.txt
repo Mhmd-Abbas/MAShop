@@ -12,3 +12,4 @@ C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.DAL\obj\Debug\net9
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.DAL\obj\Debug\net9.0\MAShop.DAL.pdb
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.DAL\obj\Debug\net9.0\MAShop.DAL.genruntimeconfig.cache
 C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.DAL\obj\Debug\net9.0\ref\MAShop.DAL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.DAL\obj\Debug\net9.0\MAShop.DAL.sourcelink.json
