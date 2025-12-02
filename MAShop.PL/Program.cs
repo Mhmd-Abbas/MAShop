@@ -1,5 +1,7 @@
 
+using MAShop.BLL.Service;
 using MAShop.DAL.Data;
+using MAShop.DAL.Respository;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -42,6 +44,9 @@ namespace MAShop.PL
             });
             
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             var app = builder.Build();
 

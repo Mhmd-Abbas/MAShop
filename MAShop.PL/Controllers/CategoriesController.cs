@@ -3,6 +3,7 @@ using MAShop.DAL.Data;
 using MAShop.DAL.DTO.Request;
 using MAShop.DAL.DTO.Response;
 using MAShop.DAL.Models;
+using MAShop.DAL.Respository;
 using MAShop.PL.Resource;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -16,19 +17,19 @@ namespace MAShop.PL.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext context;
         private readonly IStringLocalizer<SharedResource> localizer;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoriesController(ApplicationDbContext context, IStringLocalizer<SharedResource> localizer) 
+        public CategoriesController(IStringLocalizer<SharedResource> localizer, ICategoryRepository categoryRepository) 
         {
-            this.context = context;
             this.localizer = localizer;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet("")]
         public IActionResult Index() 
         {
-            var categories = context.Categories.Include(c=>c.Translations).ToList() ;
+            var categories = _categoryRepository.GetAll();
             var response = categories.Adapt<List<CategoryResponse>>();
             return Ok(new { message = localizer["Success"].Value , response});
         }
@@ -38,8 +39,7 @@ namespace MAShop.PL.Controllers
         public IActionResult Create(CategoryRequest request)
         {
             var category = request.Adapt<Category>();
-            context.Add(category);
-            context.SaveChanges(); 
+            _categoryRepository.Create(category);
             return Ok(new { message = localizer["Success"].Value  }  );
         }
 
