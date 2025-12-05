@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MAShop.DAL.Utils
 {
-    internal interface ISeedData
+    public interface ISeedData
     {
+        Task DataSeed();
     }
 }
