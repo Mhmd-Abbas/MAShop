@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using MAShop.BLL.Service;
 using MAShop.DAL.Data;
 using MAShop.DAL.DTO.Request;
 using MAShop.DAL.DTO.Response;
@@ -18,19 +19,20 @@ namespace MAShop.PL.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IStringLocalizer<SharedResource> localizer;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(IStringLocalizer<SharedResource> localizer, ICategoryRepository categoryRepository) 
+        public ICategoryService CategoryService { get; }
+
+        public CategoriesController(IStringLocalizer<SharedResource> localizer, ICategoryService categoryService) 
         {
             this.localizer = localizer;
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         [HttpGet("")]
         public IActionResult Index() 
         {
-            var categories = _categoryRepository.GetAll();
-            var response = categories.Adapt<List<CategoryResponse>>();
+            var response = _categoryService.GetAllCategories();
             return Ok(new { message = localizer["Success"].Value , response});
         }
 
@@ -38,8 +40,7 @@ namespace MAShop.PL.Controllers
 
         public IActionResult Create(CategoryRequest request)
         {
-            var category = request.Adapt<Category>();
-            _categoryRepository.Create(category);
+            var response = _categoryService.CreateCategory(request);
             return Ok(new { message = localizer["Success"].Value  }  );
         }
 

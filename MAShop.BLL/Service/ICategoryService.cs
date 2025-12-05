@@ -12,6 +12,6 @@ namespace MAShop.BLL.Service
     public interface ICategoryService
     {
         List<CategoryResponse> GetAllCategories();
-        Category CreateCategory(CategoryRequest Request);
+        CategoryResponse CreateCategory(CategoryRequest Request);
     }
 }
