@@ -121,13 +121,7 @@ namespace MAShop.PL
             
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IAuthenicationService, AuthenticationService>();
-
-            builder.Services.AddScoped<ISeedData, RoleSeedData>();
-            builder.Services.AddScoped<ISeedData, UserSeedData>();
-            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            AppConfig.config(builder.Services);
 
             var app = builder.Build();
 
