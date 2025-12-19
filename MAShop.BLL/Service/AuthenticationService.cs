@@ -63,7 +63,7 @@ namespace MAShop.BLL.Service
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, true);
 
-                if (!result.IsLockedOut)
+                if (result.IsLockedOut)
                 {
                     return new LoginResponse()
                     {
@@ -72,7 +72,7 @@ namespace MAShop.BLL.Service
                     };
                 }
 
-                if (!result.IsNotAllowed)
+                if (result.IsNotAllowed)
                 {
                     return new LoginResponse()
                     {
@@ -191,5 +191,89 @@ namespace MAShop.BLL.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<ForgotPasswordResposne> RequestPasswordReset(ForgotPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null) 
+            {
+                return new ForgotPasswordResposne
+                {
+                    Success = false,
+                    Message = "Email not found"
+                };
+            }
+
+            var random = new Random();
+            var code = random.Next(1000, 9990).ToString();
+            
+            user.CodeResetPassword = code;
+            user.PasswordResetCodeExpiry = DateTime.UtcNow.AddMinutes(5);
+
+            await _userManager.UpdateAsync(user);
+
+            await _emailSender.SendEmailAsync(user.Email, "Password Reset Request", $"<h1>Password Reset Code</h1>" +
+                $"<p>Your password reset code is: <strong>{code}</strong></p>" +
+                $"<p>This code will expire in 5 minutes.</p>");
+
+            return new ForgotPasswordResposne
+            {
+                Success = true,
+                Message = "Password reset code sent to email"
+            };
+        }
+
+
+        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null)
+            {
+                return new ResetPasswordResponse
+                {
+                    Success = false,
+                    Message = "Email not found"
+                };
+            }
+
+            else if (user.CodeResetPassword != request.Code )
+            {
+                return new ResetPasswordResponse
+                {
+                    Success = false,
+                    Message = "Invalid or expired code"
+                };
+            }
+
+            else if (user.PasswordResetCodeExpiry < DateTime.UtcNow)
+            {
+                return new ResetPasswordResponse
+                {
+                    Success = false,
+                    Message = "Code has expired"
+                };
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, request.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return new ResetPasswordResponse
+                {
+                    Success = false,
+                    Message = "Password reset failed",
+                    Errors = result.Errors.Select(e => e.Description).ToList()
+                };
+            }
+
+            await _emailSender.SendEmailAsync(user.Email, "Password Changed!", $"<p> your password has changed successfully </p>");
+
+            return new ResetPasswordResponse
+            {
+                Success = true,
+                Message = "password reset successful"
+            };
+        }
     }
 }

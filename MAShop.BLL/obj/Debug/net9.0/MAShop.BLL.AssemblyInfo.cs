@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAShop.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3bf481e684ace0a6a85bbc78a3ec272befd9415")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+326a83c52f4a848f87962d7b3493d3f0591bb45a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAShop.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAShop.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

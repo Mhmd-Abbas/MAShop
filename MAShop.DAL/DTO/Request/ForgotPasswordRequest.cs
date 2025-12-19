@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MAShop.DAL.DTO.Response
+namespace MAShop.DAL.DTO.Request
 {
-    public class RegisterResponse : BaseResponse
+    public class ForgotPasswordRequest
     {
-
+        public string Email { get; set; }
     }
 }
