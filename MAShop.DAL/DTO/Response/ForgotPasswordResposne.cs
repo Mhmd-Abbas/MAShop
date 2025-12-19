@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MAShop.DAL.DTO.Response
 {
-    public class RegisterResponse : BaseResponse
+    public class ForgotPasswordResposne :BaseResponse
     {
 
     }

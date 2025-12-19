@@ -17,6 +17,27 @@
   },
   {
     "ContainingType": "MAShop.PL.Areas.Identity.AccountController",
+    "Method": "ConfirmEmailAsync",
+    "RelativePath": "api/auth/Account/ConfirmEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Identity.AccountController",
     "Method": "Login",
     "RelativePath": "api/auth/Account/Login",
     "HttpMethod": "POST",
@@ -42,6 +63,38 @@
       {
         "Name": "request",
         "Type": "MAShop.DAL.DTO.Request.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Identity.AccountController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/auth/Account/ResetPassword",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MAShop.DAL.DTO.Request.ResetPasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Identity.AccountController",
+    "Method": "RequestPasswordReset",
+    "RelativePath": "api/auth/Account/SendCode",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MAShop.DAL.DTO.Request.ForgotPasswordRequest",
         "IsRequired": true
       }
     ],
