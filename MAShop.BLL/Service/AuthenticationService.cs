@@ -3,6 +3,7 @@ using MAShop.DAL.DTO.Request;
 using MAShop.DAL.DTO.Response;
 using MAShop.DAL.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -19,11 +20,21 @@ namespace MAShop.BLL.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthenticationService
+            (
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            IEmailSender emailSender,
+            SignInManager<ApplicationUser> signInManager
+            )
         {
             _userManager = userManager;
             _configuration = configuration;
+            _emailSender = emailSender;
+            _signInManager = signInManager;
         }
 
 
@@ -41,8 +52,36 @@ namespace MAShop.BLL.Service
                     };
                 }
 
-                var result = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
-                if (!result)
+                if(await _userManager.IsLockedOutAsync(user))
+                {
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "User is locked out, try again later",
+                    };
+                }
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, true);
+
+                if (!result.IsLockedOut)
+                {
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Account Locked duo to multiple failed attempts",
+                    };
+                }
+
+                if (!result.IsNotAllowed)
+                {
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "PLease confirm Email",
+                    };
+                }
+
+                if (!result.Succeeded)
                 {
                     return new LoginResponse()
                     {
@@ -89,6 +128,14 @@ namespace MAShop.BLL.Service
                 }
 
                 await _userManager.AddToRoleAsync(user, "User");
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                token = Uri.EscapeDataString(token);
+
+                var emailUrl = $"http://localhost:5257/api/auth/Account/ConfirmEmail?token={token}&userId={user.Id}";
+
+                await _emailSender.SendEmailAsync(user.Email, "Welcome to MAShop", $"<h1>Thank you {user.UserName} for registering at MAShop!</h1>" +
+                    $"<a href='{emailUrl}' >Confirm Email</a>");
+
 
                 return new RegisterResponse()
                 {
@@ -109,6 +156,17 @@ namespace MAShop.BLL.Service
 
         }
 
+        public async Task<string> ConfirmEmailAsync(string token, string userId)
+        {
+            var  user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return "user not found";
+            }
+            var result = _userManager.ConfirmEmailAsync(user, token);
+            return "User Confirmed";
+        }
+
 
         private async Task<string> GenerateAccessToken(ApplicationUser user)
         {
@@ -126,7 +184,7 @@ namespace MAShop.BLL.Service
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: userClaims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials: creds
             );
 
