@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAShop.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+326a83c52f4a848f87962d7b3493d3f0591bb45a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a225b8f34981ac3ca6c369efe2a79c81797262d")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAShop.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAShop.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
