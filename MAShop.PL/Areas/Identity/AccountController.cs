@@ -40,6 +40,12 @@ namespace MAShop.PL.Areas.Identity
             return Ok(result);
         }
 
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string token, string userId)
+        {
+            var result = await _authenicationService.ConfirmEmailAsync(token, userId);
+            return Ok(result);
+        }   
 
     }
 }
