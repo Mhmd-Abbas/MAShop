@@ -16,6 +16,59 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
+    "Method": "DeleteCategoty",
+    "RelativePath": "api/admin/Categories/{Id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
+    "Method": "UpdateCategory",
+    "RelativePath": "api/admin/Categories/{Id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "MAShop.DAL.DTO.Request.CategoryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
+    "Method": "ToggleStatus",
+    "RelativePath": "api/admin/Categories/toggle-status/{Id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MAShop.PL.Areas.Identity.AccountController",
     "Method": "ConfirmEmailAsync",
     "RelativePath": "api/auth/Account/ConfirmEmail",
