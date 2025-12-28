@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MAShop.PL.Areas.Admin
 {
@@ -25,15 +26,70 @@ namespace MAShop.PL.Areas.Admin
         }
 
         [HttpPost("")]
-        public IActionResult Create(CategoryRequest request)
+        public async Task<IActionResult> Create([FromBody] CategoryRequest request)
         {
-            var createdBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Console.WriteLine("User id is :");
-            Console.WriteLine(createdBy);
-
-            var response = _category.CreateCategory(request);
+            var response = await _category.CreateCategory(request);
             return Ok(new { message = _localizer["Success"].Value });
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteCategoty([FromRoute]int Id)
+        {
+            var result = await _category.DeleteCategoryAsync(Id);
+            if (!result.Success)
+            {
+                if(result.Message.Contains("not found"))
+                {
+                    return NotFound(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+            return Ok(result);
+        }
+
+        [HttpPatch("{Id}")]
+        public async Task<IActionResult> UpdateCategory([FromRoute]int Id, [FromBody] CategoryRequest request)
+        {
+            var result = await _category.UpdateCategoryAsync(Id, request);
+
+            if (!result.Success)
+            {
+                if (result.Message.Contains("not found"))
+                {
+                    return NotFound(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+
+            return Ok(result);
+        }
+
+
+        [HttpPatch("/toggle-status/{Id}")]
+        public async Task<IActionResult> ToggleStatus(int Id)
+        {
+            var result = await _category.ToggleStatus(Id);
+
+            if (!result.Success)
+            {
+                if (result.Message.Contains("not found"))
+                {
+                    return NotFound(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+
+            return Ok(result);
         }
     }
 } 

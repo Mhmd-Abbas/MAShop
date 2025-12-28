@@ -1,4 +1,6 @@
 ﻿using MAShop.DAL.Data;
+using MAShop.DAL.DTO.Request;
+using MAShop.DAL.DTO.Response;
 using MAShop.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,16 +20,35 @@ namespace MAShop.DAL.Respository
             _context = context;
         }
 
-        public Category Create(Category request)
+        public async Task<Category> CreateAsync(Category request)
         {
-            _context.Categories.Add(request);
-            _context.SaveChanges();
+            await _context.Categories.AddAsync(request);
+            await _context.SaveChangesAsync();
             return request;
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAllAsync()
         {
-            return _context.Categories.Include(c => c.Translations).ToList();
+            return await _context.Categories.Include(c => c.Translations).ToListAsync();
+        }
+
+        public async Task<Category> GetByIdAsync(int id)
+        {
+            return await _context.Categories.Include(c => c.Translations)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task DeleteAsync(Category category)
+        {
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category?> UpdateAsync(Category category)
+        {
+            _context.Categories.Update(category);
+            _context.SaveChangesAsync();
+            return category;
         }
     }
 }
