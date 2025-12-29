@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MAShop.DAL.DTO.Response
@@ -11,7 +12,10 @@ namespace MAShop.DAL.DTO.Response
     public class CategoryResponse
     {
         public int Id { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Status Status { get; set; }
+
+        public string CreatedByUser { get; set; }
 
         public List<CategoryTranslationResponse> Translations { get; set; }
     }

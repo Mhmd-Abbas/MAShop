@@ -17,6 +17,16 @@
   },
   {
     "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
+    "Method": "Index",
+    "RelativePath": "api/admin/Categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
     "Method": "DeleteCategoty",
     "RelativePath": "api/admin/Categories/{Id}",
     "HttpMethod": "DELETE",
@@ -47,22 +57,6 @@
       {
         "Name": "request",
         "Type": "MAShop.DAL.DTO.Request.CategoryRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
-    "Method": "ToggleStatus",
-    "RelativePath": "api/admin/Categories/toggle-status/{Id}",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Id",
-        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -160,7 +154,29 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "lang",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Admin.CategoriesController",
+    "Method": "ToggleStatus",
+    "RelativePath": "toggle-status/{Id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

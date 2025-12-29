@@ -29,7 +29,7 @@ namespace MAShop.DAL.Respository
 
         public async Task<List<Category>> GetAllAsync()
         {
-            return await _context.Categories.Include(c => c.Translations).ToListAsync();
+            return await _context.Categories.Include(c => c.Translations).Include(c=>c.User).ToListAsync();
         }
 
         public async Task<Category> GetByIdAsync(int id)

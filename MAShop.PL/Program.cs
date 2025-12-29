@@ -1,4 +1,5 @@
 
+using MAShop.BLL.MapsterConfigurations;
 using MAShop.BLL.Service;
 using MAShop.DAL.Data;
 using MAShop.DAL.Models;
@@ -122,6 +123,7 @@ namespace MAShop.PL
             builder.Services.AddSwaggerGen();
 
             AppConfig.config(builder.Services);
+            MapsterConfig.MapsterConfRegister();
 
             var app = builder.Build();
 
