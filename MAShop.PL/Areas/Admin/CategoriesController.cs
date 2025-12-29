@@ -91,5 +91,13 @@ namespace MAShop.PL.Areas.Admin
 
             return Ok(result);
         }
+
+
+        [HttpGet("")]
+        public async Task<IActionResult> Index()
+        {
+            var response = _category.GetAllCategoriesForAdmin();
+            return Ok(new { message = _localizer["Success"].Value, response });
+        }
     }
 } 

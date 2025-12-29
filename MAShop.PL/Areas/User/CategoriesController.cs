@@ -21,9 +21,9 @@ namespace MAShop.PL.Areas.User
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string lang = "en")
         {
-            var response = _category.GetAllCategories();
+            var response = _category.GetAllCategoriesForUser(lang);
             return Ok(new { message = _localizer["Success"].Value, response });
         }
     }

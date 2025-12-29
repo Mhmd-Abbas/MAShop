@@ -271,6 +271,9 @@ namespace MAShop.BLL.Service
 
             await _emailSender.SendEmailAsync(user.Email, "Password Changed!", $"<p> your password has changed successfully </p>");
 
+            user.CodeResetPassword = null;
+            await _userManager.UpdateAsync(user);
+
             return new ResetPasswordResponse
             {
                 Success = true,
