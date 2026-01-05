@@ -18,6 +18,10 @@ namespace MAShop.DAL.Data
         private readonly IHttpContextAccessor _httpContextAccessor;
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductTranslation> ProductTranslations { get; set; }
+
+        public DbSet<ProductImage> ProductImages { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor): base(options)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -34,27 +38,38 @@ namespace MAShop.DAL.Data
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+
+            builder.Entity<Category>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries<BaseModel>();
 
-            var currentUserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            foreach (var entry in entries)
+            
+            if (_httpContextAccessor.HttpContext != null)
             {
-                if (entry.State == EntityState.Added)
+                var currentUserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                foreach (var entry in entries)
                 {
-                    entry.Property(x => x.CreatedBy).CurrentValue = currentUserId;
-                    entry.Property(x => x.CreatedAt).CurrentValue = DateTime.UtcNow;
-                }
-                else if (entry.State == EntityState.Modified)
-                {
-                    entry.Property(x => x.UpdatedBy).CurrentValue = currentUserId;
-                    entry.Property(x => x.UpdatedAt).CurrentValue = DateTime.UtcNow;
+                    if (entry.State == EntityState.Added)
+                    {
+                        entry.Property(x => x.CreatedBy).CurrentValue = currentUserId;
+                        entry.Property(x => x.CreatedAt).CurrentValue = DateTime.UtcNow;
+                    }
+                    else if (entry.State == EntityState.Modified)
+                    {
+                        entry.Property(x => x.UpdatedBy).CurrentValue = currentUserId;
+                        entry.Property(x => x.UpdatedAt).CurrentValue = DateTime.UtcNow;
+                    }
                 }
             }
+
             return base.SaveChangesAsync(cancellationToken);
         }
 
@@ -64,19 +79,19 @@ namespace MAShop.DAL.Data
 
             var currentUserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            foreach (var entry in entries)
-            {
-                if(entry.State == EntityState.Added)
+                foreach (var entry in entries)
                 {
-                    entry.Property(x => x.CreatedBy).CurrentValue = currentUserId;
-                    entry.Property(x => x.CreatedAt).CurrentValue = DateTime.UtcNow;
+                    if (entry.State == EntityState.Added)
+                    {
+                        entry.Property(x => x.CreatedBy).CurrentValue = currentUserId;
+                        entry.Property(x => x.CreatedAt).CurrentValue = DateTime.UtcNow;
+                    }
+                    else if (entry.State == EntityState.Modified)
+                    {
+                        entry.Property(x => x.UpdatedBy).CurrentValue = currentUserId;
+                        entry.Property(x => x.UpdatedAt).CurrentValue = DateTime.UtcNow;
+                    }
                 }
-                else if(entry.State == EntityState.Modified)
-                {
-                    entry.Property(x => x.UpdatedBy).CurrentValue = currentUserId;
-                    entry.Property(x => x.UpdatedAt).CurrentValue = DateTime.UtcNow;
-                }
-            }
 
             return base.SaveChanges();
         }
