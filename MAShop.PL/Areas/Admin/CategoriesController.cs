@@ -96,7 +96,7 @@ namespace MAShop.PL.Areas.Admin
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var response = _category.GetAllCategoriesForAdmin();
+            var response = await _category.GetAllCategoriesForAdmin();
             return Ok(new { message = _localizer["Success"].Value, response });
         }
     }

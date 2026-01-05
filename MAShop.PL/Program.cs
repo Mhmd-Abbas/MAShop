@@ -137,8 +137,9 @@ namespace MAShop.PL
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             using (var scope = app.Services.CreateScope())

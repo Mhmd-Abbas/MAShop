@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace MAShop.DAL.DTO.Request
 {
     public class CategoryRequest
     {
-        public List<CategoryTranslationRequest> Translations {  get; set; }
-
+        public List<CategoryTranslationRequest> Translations { get; set; }
     }
 }
