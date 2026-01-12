@@ -20,6 +20,7 @@ namespace MAShop.PL
             Services.AddScoped<IEmailSender, EmailSender>();
             Services.AddScoped<IProductService, ProductService>();
             Services.AddScoped<IFileService, FileService>();
+            Services.AddScoped<ITokenService, TokenService>();
 
             //Utils
             Services.AddScoped<ISeedData, RoleSeedData>();

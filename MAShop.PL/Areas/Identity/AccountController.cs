@@ -70,5 +70,18 @@ namespace MAShop.PL.Areas.Identity
             return Ok(result);
         }
 
+        [HttpPatch("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(TokenApiModel req)
+        {
+            var result = await _authenicationService.RefreshToken(req);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
     }
 }
