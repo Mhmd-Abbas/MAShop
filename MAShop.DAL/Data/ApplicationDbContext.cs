@@ -20,8 +20,9 @@ namespace MAShop.DAL.Data
         public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductTranslation> ProductTranslations { get; set; }
-
         public DbSet<ProductImage> ProductImages { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor): base(options)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -43,6 +44,12 @@ namespace MAShop.DAL.Data
                 .HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Cart>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
 

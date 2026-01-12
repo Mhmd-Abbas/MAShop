@@ -11,6 +11,8 @@ namespace MAShop.BLL.Service
     public interface IProductService
     {
         Task<ProductResponse> CreateProduct(ProductRequest req);
-        Task<List<ProductResponse>> GetAllProductsForUser(string lang = "en");
+        Task<List<ProductUserResposne>> GetAllProductsForUser(string lang = "en");
+        Task<List<ProductResponse>> GetAllProductsForAdmin();
+        Task<ProductUserDetails> GetAllProductsDetailsForUser(int id, string lang = "en");
     }
 }

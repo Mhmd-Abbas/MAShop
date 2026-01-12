@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MAShop.DAL.DTO.Response
 {
-    public class LoginResponse : BaseResponse
+    public class CartSummaryResposne
     {
-        public string? AccessToken { get; set; }
-        public string? RefreshToken { get; set; }
+        public List<CartResponse> Items { get; set; }
+
+        public decimal CartTotal => Items.Sum(i => i.TotalPrice);
     }
 }

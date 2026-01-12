@@ -28,6 +28,26 @@ namespace MAShop.BLL.MapsterConfigurations
             TypeAdapterConfig<Product, ProductResponse>.NewConfig()
                 .Map(dest => dest.CreatedByUser, source => source.User.UserName)
                 .Map(dest => dest.MainImage, source => $"http://localhost:5257/Images/{source.MainImage}");
+
+            TypeAdapterConfig<Product, ProductUserResposne>.NewConfig()
+                .Map(dest => dest.MainImage, source => $"http://localhost:5257/Images/{source.MainImage}")
+                .Map(dest => dest.Name,
+                source => source.Translations
+                .Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
+                .Select(t => t.Name).FirstOrDefault());
+
+            TypeAdapterConfig<Product, ProductUserDetails>.NewConfig()
+                .Map(dest => dest.MainImage, source => $"http://localhost:5257/Images/{source.MainImage}")
+                .Map(dest => dest.Name,
+                source => source.Translations
+                .Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
+                .Select(t => t.Name).FirstOrDefault())
+                .Map(dest => dest.Description,
+                source => source.Translations
+                .Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
+                .Select(t => t.Description).FirstOrDefault());
+
+
         }
     }
 }

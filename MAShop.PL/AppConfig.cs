@@ -13,6 +13,8 @@ namespace MAShop.PL
             //Repos
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<IProductRepository, ProductRepository>();
+            Services.AddScoped<ICartRepository, CartRepository>();
+
 
             //Services
             Services.AddScoped<ICategoryService, CategoryService>();
@@ -20,6 +22,10 @@ namespace MAShop.PL
             Services.AddScoped<IEmailSender, EmailSender>();
             Services.AddScoped<IProductService, ProductService>();
             Services.AddScoped<IFileService, FileService>();
+            Services.AddScoped<ITokenService, TokenService>();
+            Services.AddScoped<ICartService, CartService>();
+            Services.AddScoped<ICheckoutService, CheckoutService>();
+
 
             //Utils
             Services.AddScoped<ISeedData, RoleSeedData>();

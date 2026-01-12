@@ -11,5 +11,7 @@ namespace MAShop.DAL.Respository
     {
         Task<Product> AddAsync(Product req);
         Task<List<Product>> GetAllAsync();
+
+        Task<Product> FindByIdAsync(int id);
     }
 }

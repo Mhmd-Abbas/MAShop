@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MAShop.DAL.DTO.Response
 {
-    public class LoginResponse : BaseResponse
+    public class CheckoutResposne : BaseResponse
     {
-        public string? AccessToken { get; set; }
-        public string? RefreshToken { get; set; }
+        public string Url { get; set; }
+        public string PaymentId { get; set; }
     }
 }

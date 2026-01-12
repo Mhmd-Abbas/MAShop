@@ -55,10 +55,24 @@ namespace MAShop.BLL.Service
             return response;
         }
 
-        public async Task<List<ProductResponse>> GetAllProductsForUser(string lang = "en")
+        public async Task<List<ProductUserResposne>> GetAllProductsForUser(string lang = "en")
         {
-            var categories = await _repo.GetAllAsync();
-            var response = categories.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductResponse>>();
+            var products = await _repo.GetAllAsync();
+            var response = products.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductUserResposne>>();
+            return response;
+        }
+
+        public async Task<List<ProductResponse>> GetAllProductsForAdmin()
+        {
+            var products = await _repo.GetAllAsync();
+            var response = products.Adapt<List<ProductResponse>>();
+            return response;
+        }
+
+        public async Task<ProductUserDetails> GetAllProductsDetailsForUser(int id, string lang = "en")
+        {
+            var product = await _repo.FindByIdAsync(id);
+            var response = product.BuildAdapter().AddParameters("lang", lang).AdaptToType<ProductUserDetails>();
             return response;
         }
     }

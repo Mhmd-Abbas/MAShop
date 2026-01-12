@@ -19,8 +19,7 @@ namespace MAShop.DAL.DTO.Response
 
         public string CreatedByUser { get; set; }
 
-        //public List<string> SubImages { get; set; }
+        public List<string> SubImages { get; set; }
 
-        public List<CategoryTranslationResponse> Translations { get; set; }
     }
 }

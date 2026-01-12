@@ -1,4 +1,5 @@
 
+using MAShop.BLL;
 using MAShop.BLL.MapsterConfigurations;
 using MAShop.BLL.Service;
 using MAShop.DAL.Data;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -34,6 +36,10 @@ namespace MAShop.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Configure Stripe settings
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>( options =>
             {
@@ -65,6 +71,7 @@ namespace MAShop.PL
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero,
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!))

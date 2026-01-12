@@ -15,5 +15,6 @@ namespace MAShop.BLL.Service
         Task<string> ConfirmEmailAsync(string token, string userId);
         Task<ForgotPasswordResposne> RequestPasswordReset(ForgotPasswordRequest request);
         Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request);
+        Task<LoginResponse> RefreshToken(TokenApiModel req);
     }
 }
