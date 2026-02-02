@@ -1,6 +1,9 @@
 ﻿using MAShop.DAL.DTO.Request;
 using MAShop.DAL.DTO.Response;
+using MAShop.DAL.Models;
 using MAShop.DAL.Respository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
 using Stripe.Checkout;
 using System;
@@ -15,9 +18,19 @@ namespace MAShop.BLL.Service
     public class CheckoutService : ICheckoutService
     {
         private readonly ICartRepository _cartRepo;
-        public CheckoutService( ICartRepository cartRepo)
+        private readonly IOrderRepository _orderRepo;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
+        public CheckoutService(
+            ICartRepository cartRepo,
+            IOrderRepository orderRepo,
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _cartRepo = cartRepo;
+            _orderRepo = orderRepo;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         public async Task<CheckoutResposne> ProccessPaymentAsync(CheckoutRequest req, string userId)
@@ -51,7 +64,14 @@ namespace MAShop.BLL.Service
                 totalAmount += item.Product.Price;
             }
 
-            if(req.PaymentMethod == "cash")
+            Order order = new Order
+            {
+                UserId = userId,
+                PaymentMethod = req.PaymentMethod,
+                AmountPaid = totalAmount,
+            };
+
+            if (req.PaymentMethod == PaymentTypeEnum.Cash)
             {
                 return new CheckoutResposne
                 {
@@ -59,7 +79,7 @@ namespace MAShop.BLL.Service
                     Message = "Order placed successfully. Pay with cash on delivery."
                 };
             }
-            else if(req.PaymentMethod == "visa")
+            else if(req.PaymentMethod == PaymentTypeEnum.Visa)
             {
                 var options = new SessionCreateOptions
                 {
@@ -67,8 +87,12 @@ namespace MAShop.BLL.Service
                     LineItems = new List<SessionLineItemOptions> (),
 
                     Mode = "payment",
-                    SuccessUrl = $"https://localhost:5257/checkout/success",
-                    CancelUrl = $"https://localhost:5257/checkout/cancel",
+                    SuccessUrl = $"http://localhost:5257/api/checkouts/success?session_id={{CHECKOUT_SESSION_ID}}",
+                    CancelUrl = $"http://localhost:5257/checkout/cancel",
+                    Metadata = new Dictionary<string, string>
+                    {
+                        { "userId", userId }
+                    }
                 };
 
                 foreach(var item in cartItems)
@@ -82,7 +106,7 @@ namespace MAShop.BLL.Service
                             {
                                 Name = item.Product.Translations.FirstOrDefault(t => t.Language == "en").Name,
                             },
-                            UnitAmount = (long)item.Product.Price,
+                            UnitAmount = (long)item.Product.Price * 100,
                         },
                         Quantity = item.Count,
 
@@ -91,7 +115,10 @@ namespace MAShop.BLL.Service
 
                 var service = new SessionService();
                 var session = service.Create(options);
+                order.SessionId = session.Id;
 
+                await _orderRepo.CreateAsync(order);
+                
                 return new CheckoutResposne
                 {
                     Success = true,
@@ -109,6 +136,33 @@ namespace MAShop.BLL.Service
                 };
             }
 
+        }
+
+
+        public async Task<CheckoutResposne> HandleSuccessAsync(string session_id)
+        {
+            var service = new SessionService();
+            var session = await service.GetAsync(session_id);
+            var userId = session.Metadata["userId"];
+
+
+            var order = await _orderRepo.GetBySessionIdAsync(session_id);
+
+            order.PaymentId = session.PaymentIntentId;
+
+            order.OrderStatus = OrederStatusEnum.Approved;
+
+            await _orderRepo.UpdateAsync(order);
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            await _emailSender.SendEmailAsync(user.Email, "Order Confirmation", $"Your order with ID {order.Id} has been successfully placed.");
+
+            return new CheckoutResposne
+            {
+                Success = true,
+                Message = "Payment successful and order approved."
+            };
         }
     }
 }

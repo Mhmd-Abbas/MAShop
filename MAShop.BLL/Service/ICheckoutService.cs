@@ -11,5 +11,6 @@ namespace MAShop.BLL.Service
     public interface ICheckoutService
     {
         Task<CheckoutResposne> ProccessPaymentAsync( CheckoutRequest req, string userId);
+        Task<CheckoutResposne> HandleSuccessAsync(string session_id);
     }
 }
