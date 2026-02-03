@@ -15,6 +15,8 @@ namespace MAShop.PL
             Services.AddScoped<IProductRepository, ProductRepository>();
             Services.AddScoped<ICartRepository, CartRepository>();
             Services.AddScoped<IOrderRepository, OrderRepository>();
+            Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
 
 
             //Services

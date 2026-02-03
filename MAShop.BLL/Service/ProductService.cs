@@ -4,6 +4,7 @@ using MAShop.DAL.DTO.Request;
 using MAShop.DAL.DTO.Response;
 using MAShop.DAL.Models;
 using MAShop.DAL.Respository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,10 +56,24 @@ namespace MAShop.BLL.Service
             return response;
         }
 
-        public async Task<List<ProductUserResposne>> GetAllProductsForUser(string lang = "en")
+        public async Task<List<ProductUserResposne>> GetAllProductsForUser
+            (string lang = "en", int page = 1, int limit = 3, string? search = null )
         {
-            var products = await _repo.GetAllAsync();
-            var response = products.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductUserResposne>>();
+            var products = _repo.Query();
+
+            if(search is not null)
+            {
+                products = products
+                    .Where(p => p.Translations.Any(t => t.Language == lang && t.Name.Contains(search) || t.Description.Contains(search)));
+            }
+
+            var totalCount = await products.CountAsync();
+
+            products = products.Skip( (page - 1) * limit).Take(limit);
+
+            var Listproducts = products.ToList();
+
+            var response = Listproducts.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductUserResposne>>();
             return response;
         }
 

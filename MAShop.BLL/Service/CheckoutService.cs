@@ -21,16 +21,23 @@ namespace MAShop.BLL.Service
         private readonly IOrderRepository _orderRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IOrderItemRepository _orderItemRepo;
+        private readonly IProductRepository _productRepo;
         public CheckoutService(
             ICartRepository cartRepo,
             IOrderRepository orderRepo,
             UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IOrderItemRepository orderItemRepo,
+            IProductRepository productRepo
+            )
         {
             _cartRepo = cartRepo;
             _orderRepo = orderRepo;
             _userManager = userManager;
             _emailSender = emailSender;
+            _orderItemRepo = orderItemRepo;
+            _productRepo = productRepo;
         }
 
         public async Task<CheckoutResposne> ProccessPaymentAsync(CheckoutRequest req, string userId)
@@ -156,6 +163,26 @@ namespace MAShop.BLL.Service
 
             var user = await _userManager.FindByIdAsync(userId);
 
+            var cartItems = await _cartRepo.GetUserCartItems(userId);
+            var orderItems = new List<OrderItem>();
+            var updatedProduct = new List<(int productId, int quantity)>();
+
+            foreach (var item in cartItems)
+            {
+                var orderItem = new OrderItem
+                {
+                    OrderId = order.Id,
+                    ProductId = item.Product.Id,
+                    Quantity = item.Count,
+                    UnitPrice = item.Product.Price,
+                };
+                orderItems.Add(orderItem);
+                updatedProduct.Add((item.Product.Id, item.Count)); 
+                
+            }
+            await _orderItemRepo.CreateRangeAsync(orderItems);
+            await _cartRepo.ClearCartAsync(userId);
+            await _productRepo.DecreaseQuantityAsync(updatedProduct);
             await _emailSender.SendEmailAsync(user.Email, "Order Confirmation", $"Your order with ID {order.Id} has been successfully placed.");
 
             return new CheckoutResposne

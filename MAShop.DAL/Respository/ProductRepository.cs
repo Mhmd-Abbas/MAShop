@@ -1,4 +1,5 @@
 ﻿using MAShop.DAL.Data;
+using MAShop.DAL.DTO.Response;
 using MAShop.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -32,6 +33,33 @@ namespace MAShop.DAL.Respository
         {
             return await _context.Products.Include(c => c.Translations)
                 .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public IQueryable<Product> Query()
+        {
+            return _context.Products.Include(p=> p.Translations).AsQueryable();
+        }
+
+        public async Task<bool> DecreaseQuantityAsync(List<( int productId, int quantity )> items)
+        {
+            var producId = items.Select(i => i.productId).ToList();
+
+            var products = await _context.Products.Where(p => producId.Contains(p.Id)).ToListAsync();
+
+            foreach (var product in products)
+            {
+                var item = items.First(i => i.productId == product.Id);
+                if (product.Quantity < item.quantity)
+                {
+                    return false;
+                }
+
+                product.Quantity -= item.quantity;
+            }
+
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

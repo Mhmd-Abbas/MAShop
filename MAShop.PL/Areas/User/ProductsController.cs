@@ -21,9 +21,10 @@ namespace MAShop.PL.Areas.User
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(string lang = "en")
+        public async Task<IActionResult> Index
+            ([FromQuery] string lang = "en", [FromQuery] int page = 1, [FromQuery] int limit = 3, [FromQuery] string? search = null)
         {
-            var response = await _productService.GetAllProductsForUser(lang);
+            var response = await _productService.GetAllProductsForUser(lang, page, limit, search);
             return Ok(new { message = _localizer["Success"].Value, response });
         }
 
