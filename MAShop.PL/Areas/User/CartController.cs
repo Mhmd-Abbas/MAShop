@@ -51,5 +51,25 @@ namespace MAShop.PL.Areas.User
 
         }
 
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveFromCart([FromRoute] int productId)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _cart.RemoveFromCartAsync(userId, productId);
+            return Ok(response);
+
+        }
+
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateQuantity([FromRoute] int productId, [FromBody] UpdateQuantityRequest req)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _cart.UpdateQuantityAsync(userId, productId, req.Count);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }

@@ -76,6 +76,7 @@ namespace MAShop.BLL.Service
                 UserId = userId,
                 PaymentMethod = req.PaymentMethod,
                 AmountPaid = totalAmount,
+                PaymentStatus = PaymentStatusEnum.UnPaid,
             };
 
             if (req.PaymentMethod == PaymentTypeEnum.Cash)
@@ -123,6 +124,7 @@ namespace MAShop.BLL.Service
                 var service = new SessionService();
                 var session = service.Create(options);
                 order.SessionId = session.Id;
+                order.PaymentStatus = PaymentStatusEnum.Paid;
 
                 await _orderRepo.CreateAsync(order);
                 
@@ -157,7 +159,7 @@ namespace MAShop.BLL.Service
 
             order.PaymentId = session.PaymentIntentId;
 
-            order.OrderStatus = OrederStatusEnum.Approved;
+            order.OrderStatus = OrderStatusEnum.Approved;
 
             await _orderRepo.UpdateAsync(order);
 

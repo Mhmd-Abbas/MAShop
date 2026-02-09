@@ -36,7 +36,10 @@ namespace MAShop.BLL.Service
                 };
             }
 
-            if( product.Quantity < req.Count)
+            var cartItem = await _cartRepo.GetCartItemAsync(userId, req.ProductId);
+            var existingCount = cartItem?.Count ?? 0;
+
+            if (product.Quantity < (req.Count + existingCount))
             {
                 return new BaseResponse
                 {
@@ -45,9 +48,7 @@ namespace MAShop.BLL.Service
                 };
             }
 
-            var cartItem = await _cartRepo.GetCartItemAsync(userId, req.ProductId);
-
-            if(cartItem is not null)
+            if (cartItem is not null)
             {
                 cartItem.Count += req.Count;
                 await _cartRepo.updateAsync(cartItem);
@@ -82,7 +83,7 @@ namespace MAShop.BLL.Service
 
             var resposne = cartItems.Adapt<CartResponse>();
 
-            var items = cartItems.Select(c=> new CartResponse
+            var items = cartItems.Select(c => new CartResponse
             {
                 ProductId = c.ProductId,
                 ProductName = c.Product.Translations.FirstOrDefault(t => t.Language == lang).Name,
@@ -105,6 +106,70 @@ namespace MAShop.BLL.Service
             {
                 Success = true,
                 Message = "Cart Cleared successfully"
+            };
+        }
+
+        public async Task<BaseResponse> RemoveFromCartAsync(string userId, int productId)
+        {
+            var cartItem = await _cartRepo.GetCartItemAsync(userId, productId);
+
+            if (cartItem is null)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Product not found in cart",
+                    Errors = new List<string> { "The product you are trying to remove from the cart does not exist in the cart." }
+                };
+            }
+            await _cartRepo.DeleteAsync(cartItem);
+            return new BaseResponse
+            {
+                Success = true,
+                Message = "Product removed from cart successfully"
+            };
+        }
+
+        public async Task<BaseResponse> UpdateQuantityAsync(string userId, int productId, int count)
+        {
+            var cartItem = await _cartRepo.GetCartItemAsync(userId, productId);
+            var product = await _ProductRepo.FindByIdAsync(productId);
+
+            if(count < 0)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Invalid quantity"
+                };
+            }
+
+            if(count == 0)
+            {
+                await _cartRepo.DeleteAsync(cartItem);
+                return new BaseResponse
+                {
+                    Success = true,
+                    Message = "Product removed from cart successfully"
+                };
+            }
+
+            if (product.Quantity < count)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = "Not Enough in Stock",
+                };
+            }
+
+            cartItem.Count = count;
+            await _cartRepo.updateAsync(cartItem);
+
+            return new BaseResponse
+            {
+                Success = true,
+                Message = "Quantity updated successfully"
             };
         }
     }

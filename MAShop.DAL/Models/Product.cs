@@ -19,7 +19,7 @@ namespace MAShop.DAL.Models
 
         public List<ProductTranslation> Translations { get; set; }
 
-        public List<ProductImage> SubImages { get; set; }
+        public IEnumerable<ProductImage> SubImages { get; set; } = new List<ProductImage>();
 
     }
 }

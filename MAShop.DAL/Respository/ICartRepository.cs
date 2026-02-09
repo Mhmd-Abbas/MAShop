@@ -14,5 +14,7 @@ namespace MAShop.DAL.Respository
         Task<Cart?> GetCartItemAsync(string userId, int ProductId);
         Task<Cart> updateAsync(Cart req);
         Task ClearCartAsync(string userId);
+
+        Task DeleteAsync(Cart cart);
     }
 }

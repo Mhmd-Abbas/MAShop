@@ -256,6 +256,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MAShop.PL.Areas.User.CartController",
+    "Method": "RemoveFromCart",
+    "RelativePath": "api/Cart/{productId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.User.CartController",
+    "Method": "UpdateQuantity",
+    "RelativePath": "api/Cart/{productId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "MAShop.DAL.DTO.Request.UpdateQuantityRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MAShop.PL.Areas.User.CategoriesController",
     "Method": "Index",
     "RelativePath": "api/Categories",
@@ -297,6 +334,22 @@
     "Parameters": [
       {
         "Name": "session_id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MAShop.PL.Areas.Admin.OrdersController",
+    "Method": "GetOrders",
+    "RelativePath": "api/Orders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
         "Type": "System.String",
         "IsRequired": false
       }

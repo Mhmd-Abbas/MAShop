@@ -28,6 +28,7 @@ namespace MAShop.PL
             Services.AddScoped<ITokenService, TokenService>();
             Services.AddScoped<ICartService, CartService>();
             Services.AddScoped<ICheckoutService, CheckoutService>();
+            Services.AddScoped<IOrderService, OrderService>();
 
 
             //Utils

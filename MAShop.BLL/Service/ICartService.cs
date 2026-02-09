@@ -13,5 +13,7 @@ namespace MAShop.BLL.Service
         Task<BaseResponse> AddToCartAsync(string userId, AddToCartRequest req);
         Task<CartSummaryResposne> GetUserCartAsync(string userId, string lang = "en") ;
         Task<BaseResponse> clearCartAsync(string userId);
+        Task<BaseResponse> RemoveFromCartAsync(string userId, int productId);
+        Task<BaseResponse> UpdateQuantityAsync(string userId, int productId, int count);
     }
 }

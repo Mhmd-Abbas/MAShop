@@ -36,5 +36,23 @@ namespace MAShop.DAL.Respository
             return await _context.Orders.FirstOrDefaultAsync(o => o.SessionId == session_id);
             
         }
+
+        public async Task<List<Order>> GetOrdersByStatusAsync(OrderStatusEnum status)
+        {
+            return await _context.Orders
+                .Where(o => o.OrderStatus == status)
+                .Include(o => o.OrderItems)
+                .Include(o => o.User)
+                .ToListAsync();
+        }
+
+        public async Task<Order?> GetOrderByIdAsync(int id)
+        {
+            return await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.Id == id);
+        }
     }
 }

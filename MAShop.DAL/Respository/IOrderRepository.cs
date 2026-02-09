@@ -13,5 +13,9 @@ namespace MAShop.DAL.Respository
         Task<Order> CreateAsync(Order req);
         Task<Order> UpdateAsync(Order order);
         Task<Order> GetBySessionIdAsync(string session_id);
+
+        Task<List<Order>> GetOrdersByStatusAsync(OrderStatusEnum status);
+
+        Task<Order?> GetOrderByIdAsync(int id);
     }
 }
