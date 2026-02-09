@@ -6,6 +6,7 @@ using MAShop.DAL.Data;
 using MAShop.DAL.Models;
 using MAShop.DAL.Respository;
 using MAShop.DAL.Utils;
+using MAShop.PL.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -144,6 +145,9 @@ namespace MAShop.PL
                 app.UseSwaggerUI();
             }
 
+
+            //app.UseMiddleware<GlobalExceptionHanding>();
+            app.UseExceptionHandler();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
@@ -159,7 +163,9 @@ namespace MAShop.PL
                     await seeder.DataSeed();
                 }
             }
-                app.MapControllers();
+            app.MapControllers();
+
+            //app.UseMiddleware<CustomMiddleware>();
 
             app.Run();
         }

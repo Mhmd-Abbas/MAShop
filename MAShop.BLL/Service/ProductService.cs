@@ -56,8 +56,10 @@ namespace MAShop.BLL.Service
             return response;
         }
 
-        public async Task<List<ProductUserResposne>> GetAllProductsForUser
-            (string lang = "en", int page = 1, int limit = 3, string? search = null )
+        public async Task<PagenatedResposne<ProductUserResposne>> GetAllProductsForUser
+            (string lang = "en", int page = 1, int limit = 3, string? search = null,
+            int? categoryId = null, decimal? maxPrice = null, decimal? minPrice = null,
+            string? sortBy = null, bool asc = true)
         {
             var products = _repo.Query();
 
@@ -67,6 +69,36 @@ namespace MAShop.BLL.Service
                     .Where(p => p.Translations.Any(t => t.Language == lang && t.Name.Contains(search) || t.Description.Contains(search)));
             }
 
+            if(categoryId is not null)
+            {
+                products = products.Where(p => p.CategoryId == categoryId);
+            }
+
+            if (minPrice is not null)
+            {
+                products = products.Where(p => p.Price >= minPrice);
+            }
+
+            if (maxPrice is not null)
+            {
+                products = products.Where(p => p.Price <= maxPrice);
+            }
+
+            if (sortBy is not null)
+            {
+                sortBy = sortBy.ToLower();
+                if (sortBy == "price")
+                {
+                    products = asc ? products.OrderBy(p => p.Price) : products.OrderByDescending(p => p.Price);
+                }
+                else if (sortBy == "name")
+                {
+                    products = asc ? products.OrderBy(p => p.Translations.FirstOrDefault(t => t.Language == lang).Name) :
+                        products.OrderByDescending(p => p.Translations.FirstOrDefault(t => t.Language == lang).Name);
+                }
+            }
+
+
             var totalCount = await products.CountAsync();
 
             products = products.Skip( (page - 1) * limit).Take(limit);
@@ -74,7 +106,14 @@ namespace MAShop.BLL.Service
             var Listproducts = products.ToList();
 
             var response = Listproducts.BuildAdapter().AddParameters("lang", lang).AdaptToType<List<ProductUserResposne>>();
-            return response;
+            return  new PagenatedResposne<ProductUserResposne>
+            {
+                TotalCount = totalCount,
+                Page = page,
+                limit = limit,
+                Data = response
+            };
+
         }
 
         public async Task<List<ProductResponse>> GetAllProductsForAdmin()

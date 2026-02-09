@@ -35,6 +35,9 @@ namespace MAShop.PL
             Services.AddScoped<ISeedData, UserSeedData>();
             Services.AddTransient<IEmailSender, EmailSender>();
 
+            Services.AddExceptionHandler<GlobalExceptionHnadler>();
+            Services.AddProblemDetails();
+
         }
     }
 }
