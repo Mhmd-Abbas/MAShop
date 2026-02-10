@@ -1,8 +1,10 @@
 ﻿using MAShop.BLL.Service;
+using MAShop.DAL.DTO.Request;
 using MAShop.PL.Resource;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 
 namespace MAShop.PL.Areas.User
 {
@@ -12,11 +14,13 @@ namespace MAShop.PL.Areas.User
     {
 
         private readonly IProductService _productService;
+        private readonly IReviewService _reviewService;
         private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public ProductsController(IProductService productService, IStringLocalizer<SharedResource> Localizer)
+        public ProductsController(IProductService productService, IReviewService reviewService, IStringLocalizer<SharedResource> Localizer)
         {
             _productService = productService;
+            _reviewService = reviewService;
             _localizer = Localizer;
         }
 
@@ -43,6 +47,21 @@ namespace MAShop.PL.Areas.User
         {
             var response = await _productService.GetAllProductsDetailsForUser(id, lang);
             return Ok(new { message = _localizer["Success"].Value, response });
+        }
+
+        [HttpPost("{productId}/reviews")]
+        public async Task<IActionResult> AddReview([FromRoute] int productId, [FromBody] CreateReviewRequest req)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var response = await _reviewService.AddReviewAsync(userId, productId, req);
+
+            if (!response.Success)
+            {
+                return BadRequest(new { message = response.Message });
+            }
+
+            return Ok(new { message = response.Message });
         }
     }
 }

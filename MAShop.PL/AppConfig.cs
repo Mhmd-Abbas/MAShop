@@ -16,6 +16,7 @@ namespace MAShop.PL
             Services.AddScoped<ICartRepository, CartRepository>();
             Services.AddScoped<IOrderRepository, OrderRepository>();
             Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 
 
@@ -29,7 +30,8 @@ namespace MAShop.PL
             Services.AddScoped<ICartService, CartService>();
             Services.AddScoped<ICheckoutService, CheckoutService>();
             Services.AddScoped<IOrderService, OrderService>();
-
+            Services.AddScoped<IManageUserService, ManageUserService>();
+            Services.AddScoped<IReviewService, ReviewService>();
 
             //Utils
             Services.AddScoped<ISeedData, RoleSeedData>();

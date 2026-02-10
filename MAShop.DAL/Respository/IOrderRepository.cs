@@ -17,5 +17,6 @@ namespace MAShop.DAL.Respository
         Task<List<Order>> GetOrdersByStatusAsync(OrderStatusEnum status);
 
         Task<Order?> GetOrderByIdAsync(int id);
+        Task<bool> HasUserDeliverdOrderForProductAsync(string userId, int productId);
     }
 }

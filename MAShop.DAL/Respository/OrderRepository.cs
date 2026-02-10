@@ -54,5 +54,13 @@ namespace MAShop.DAL.Respository
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
+
+        public async Task<bool> HasUserDeliverdOrderForProductAsync(string userId, int productId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId && o.OrderStatus == OrderStatusEnum.Delivered)
+                .SelectMany(o => o.OrderItems)
+                .AnyAsync(oi => oi.ProductId == productId);
+        }
     }
 }
