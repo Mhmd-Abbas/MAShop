@@ -31,7 +31,11 @@ namespace MAShop.DAL.Respository
 
         public async Task<Product> FindByIdAsync(int id)
         {
-            return await _context.Products.Include(c => c.Translations)
+            return await _context.Products
+                .Include(c => c.Translations)
+                .Include(c => c.SubImages)
+                .Include(c => c.Reviews)
+                .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

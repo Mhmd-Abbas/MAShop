@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("bfbcccab-10ca-4b33-bacb-9a0aae0bc7af")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAShop.PL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+473b89175be751f2c407fae3cf5315f6b36e4141")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+143848eedff1856a91d278b06b11397072f990c5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAShop.PL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAShop.PL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

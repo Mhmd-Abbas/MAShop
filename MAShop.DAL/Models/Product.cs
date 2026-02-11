@@ -21,5 +21,7 @@ namespace MAShop.DAL.Models
 
         public List<ProductImage> SubImages { get; set; } = new List<ProductImage>();
 
+        public List<Review> Reviews { get; set; }
+
     }
 }

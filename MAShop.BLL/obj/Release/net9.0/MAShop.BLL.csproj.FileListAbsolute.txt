@@ -1,0 +1,16 @@
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\bin\Release\net9.0\MAShop.BLL.deps.json
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\bin\Release\net9.0\MAShop.BLL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\bin\Release\net9.0\MAShop.BLL.pdb
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\bin\Release\net9.0\MAShop.DAL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\bin\Release\net9.0\MAShop.DAL.pdb
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.csproj.AssemblyReference.cache
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.AssemblyInfoInputs.cache
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.AssemblyInfo.cs
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.csproj.CoreCompileInputs.cache
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.sourcelink.json
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.csproj.Up2Date
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\refint\MAShop.BLL.dll
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\MAShop.BLL.pdb
+C:\Users\abdul\Desktop\Coding files\Visual Code\MAShop\MAShop.BLL\obj\Release\net9.0\ref\MAShop.BLL.dll
